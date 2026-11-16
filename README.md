@@ -70,8 +70,9 @@ pip install -r requirements.txt
    git clone https://github.com/bhavyatalwar04/Autonomous-Valet-Parking-Agent.git
    ```
 2. Open Webots and load `worlds/parking_lot.wbt`.
-3. In the scene tree, select the car (`valet_car`) and set its `controller` field to `valet_agent`. The world's default controller, `valet_controller`, only reads the sensors and does not drive.
-4. Press **Run**. The car finds the free bays with its lidar, chooses one, plans a route, drives there and reverses in. The console shows the chosen bay, the route and the current phase.
+3. Press **Run**. The car finds the free bays with its lidar, chooses one, plans a route, drives there and reverses in. The console shows the chosen bay, the route and the current phase.
+
+The car's controller is `valet_agent`, the whole agent. To only read the sensors without driving, set the car's `controller` field to `valet_controller` in the scene tree.
 
 To test the route planner on its own (without Webots), from the repository root:
 

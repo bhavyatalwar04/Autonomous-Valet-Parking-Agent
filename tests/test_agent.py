@@ -59,5 +59,19 @@ class TestWholeAgent(unittest.TestCase):
         self.assertEqual(status["DONE"], "Parking completed")
 
 
+class TestWebotsEntryPoint(unittest.TestCase):
+    def test_world_starts_the_integrated_controller(self):
+        # Pressing Run on a fresh clone must start the whole agent, not a
+        # sensor-only controller, and that controller must exist.
+        import os
+        import re
+        root = os.path.join(os.path.dirname(__file__), "..")
+        with open(os.path.join(root, "worlds", "parking_lot.wbt")) as handle:
+            controllers = re.findall(r'controller "([^"]+)"', handle.read())
+        self.assertEqual(controllers, ["valet_agent"])
+        self.assertTrue(os.path.isfile(
+            os.path.join(root, "controllers", "valet_agent", "valet_agent.py")))
+
+
 if __name__ == "__main__":
     unittest.main()
