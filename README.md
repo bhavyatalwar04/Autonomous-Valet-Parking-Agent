@@ -155,6 +155,8 @@ No contact in any of the 40 runs; the closest gap was 0.07 m. The six failures (
 
 The full agent parked in bays A2, B0 and A5 in Webots. Tuning the parking speed and lookahead there cut the parking time by about 19 % (about 45 s to 37 s) and halved the final heading error (about 0.76° to 0.40°). See [docs/m3_webots_tuning.md](docs/m3_webots_tuning.md) and [results/m3_webots_tuning/](results/m3_webots_tuning/), which includes a demo video.
 
+On the final code the full agent parked in A2 after 52.9 s of simulated time in Webots. The offline simulator predicts 52.9 s for the same run, and each phase begins within 0.15 s in the two ([docs/report/section4_novelty.md](docs/report/section4_novelty.md), Section 4.7).
+
 ### Path tracking: Pure Pursuit vs Stanley
 
 On an L-shaped route with a reverse park ([results/m4/tables.md](results/m4/tables.md)):

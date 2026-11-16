@@ -5,8 +5,8 @@ Each member wrote and committed their own module from their own GitHub account, 
 | Member | SAP ID | Module | Report sections |
 |---|---|---|---|
 | Devansh Singh Rawat | 500124378 | M1 – World and Sensors | World and Sensors |
-| Bhavya Talwar | 500121992 | M2 – Route Planner, integration | 3, 4, 13, Route Planner |
-| Harshil Mittal | 500121907 | M3 – Parking Manoeuvres | _to be added by Harshil_ |
+| Bhavya Talwar | 500121992 | M2 – Route Planner, integration | Abstract, Introduction, 3, 4, Route Planner, Conclusion, 13 |
+| Harshil Mittal | 500121907 | M3 – Parking Manoeuvres | Parking Manoeuvres |
 | Mohammad Shahvez | 500124132 | M4 – Control and Results | _to be added by Shahvez_ |
 
 ## Bhavya Talwar (M2 – Route Planner and integration)
@@ -16,7 +16,7 @@ Each member wrote and committed their own module from their own GitHub account, 
 - **Hand-over to the parking manoeuvre**: the pre-park pose derived from M3's reverse arc, the exact cubic final approach, and the check for set-up room at end bays.
 - **Integration** (`agent/`, `controllers/valet_agent/`): the agent that joins M1–M4 in one loop, the offline simulator with a ray-cast lidar, the three scenarios and the 40-bay sweep, and the Webots controller that runs the same agent.
 - **Project infrastructure**: the GitHub Actions workflow that runs every module's tests on each pull request, and `docs/integration.md`.
-- **Report and slides**: Sections 3 (Literature Review), 4 (Novelty) and 13 (References), the Route Planner section, and the slide deck.
+- **Report and slides**: the Abstract, the Introduction, Sections 3 (Literature Review), 4 (Novelty) and 13 (References), the Route Planner section, the Conclusion, and the slide deck.
 
 ## Devansh Singh Rawat (M1 – World and Sensors)
 

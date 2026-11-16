@@ -84,4 +84,19 @@ M3 then compared its old and tuned parking settings in Webots on three bays, sta
 | B0 | 46.0 → 37.2 | 6.3 → 6.0 | 0.74 → 0.36 | 0.21 |
 | A5 | 45.2 → 36.7 | 6.3 → 5.9 | 0.78 → 0.40 | 0.20 |
 
-All five validation runs with the tuned settings parked, about 19 % faster, with the heading error halved. The Webots errors are close to the offline ones (about 5 cm and well under 1°), which supports using the offline sweep for the 40-bay success rate. Webots has so far been run on three bays and without moving obstacles; the remaining bays and the pedestrian scenario are still to be repeated there.
+All five validation runs with the tuned settings parked, about 19 % faster, with the heading error halved.
+
+The run to bay A2 can also be compared directly with the offline simulator, because with the default lot the agent chooses A2 in both. The Webots run was repeated on the final code (`docs/report/section_m3_parking.md`):
+
+| Normal run to A2 | Offline simulator | Webots |
+|---|---|---|
+| ALIGN begins (s) | 16.32 | 16.26 |
+| PARK begins (s) | 25.66 | 25.54 |
+| Parked (s) | 52.90 | 52.93 |
+| Centre error (cm) | 5.0 | 5.9 |
+| Heading error (°) | 0.08 | 0.40 |
+| Closest gap (m) | 0.20 | 0.18 |
+
+The Webots errors and gap are from the three tuned A2 runs above, which gave the same times as the run on the final code. The Webots gap is worked out from the lidar scan; the offline gap is exact.
+
+Every phase begins within 0.15 s of the offline prediction over a 53 s run, and with the old parking settings the two simulators gave 61.2 s and 61.4 s. The car ends about 1 cm further from the bay centre in Webots and 0.3° less straight, which we attribute to the wheel and steering dynamics that the bicycle model leaves out. This agreement supports using the offline sweep for the 40-bay success rate. Webots has so far been run on three bays and without moving obstacles; the remaining bays and the pedestrian scenario are still to be repeated there.

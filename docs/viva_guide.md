@@ -153,7 +153,10 @@ We tried every one of the 40 bays with both neighbours occupied: 34 parked (85%)
 A8, B8, C0, C8, C9 and D1 are at or next to the ends of the aisles. Reaching them needs multi-point turns in tight space, or the reverse swing passes the end wall inside the 0.15 m safety limit. The safety layer stops the car each time, so they fail safely.
 
 **Q. Was it run in Webots?**
-Yes: the full agent parked in A2, B0 and A5 in all five validation runs, with centre error about 6 cm and heading error about 0.4°, close to the offline numbers. The pedestrian scenario and the other bays have not been repeated in Webots yet.
+Yes: the full agent parked in A2, B0 and A5 in all five validation runs, with centre error about 6 cm and heading error about 0.4°, close to the offline numbers. On the final code it parked in A2 at 52.9 s; the offline simulator predicts 52.9 s for the same run, and each phase starts within 0.15 s in the two. The pedestrian scenario and the other bays have not been repeated in Webots yet.
+
+**Q. How do you start the demo in Webots?**
+Open `worlds/parking_lot.wbt`, set the car's `controller` field to `valet_agent`, and press Run. The world's default controller, `valet_controller`, only reads the sensors.
 
 ## 8. Honest limits (say these before the examiner does)
 
