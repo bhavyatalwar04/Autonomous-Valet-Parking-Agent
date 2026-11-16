@@ -9,7 +9,9 @@ All the decisions live in agent/valet_agent.py (tested offline with
 `python -m agent.run_offline`). This file only reads the Webots devices,
 calls agent.step() and sends the result to the motors.
 
-To use it: set the valet_car's `controller` field to "valet_agent".
+It is the default controller of the car in worlds/parking_lot.wbt (the
+valet_car's `controller` field is "valet_agent"), so opening the world and
+pressing Run starts it.
 
 Devices (worlds/parking_lot.wbt, see docs/m1_world_sensors.md):
   gps, compass, lidar                      sensing (GPS at the rear-axle centre)

@@ -42,7 +42,7 @@ python -m agent.run_offline --sweep    # + park in every one of the 40 bays (abo
 python -m unittest discover -s tests   # all tests
 ```
 
-In Webots, set the car's `controller` field to `valet_agent`. The world needs:
+In Webots, open `worlds/parking_lot.wbt` and press Run. The car's `controller` field is `valet_agent` by default (since #24), which is `controllers/valet_agent/valet_agent.py`. Notes:
 
 - It uses the devices M1 added in #11: `gps`, `compass`, `lidar`, the four `*_wheel_motor`s and the two `front_*_steer` motors.
 - The wheel motors are velocity controlled, so the controller sends M4's speed reference and steering angle, converted to wheel speeds and Ackermann angles with M1's helpers.
