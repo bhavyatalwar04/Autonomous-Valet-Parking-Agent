@@ -110,7 +110,8 @@ def body_clearances(ranges, field_of_view, front_extent, rear_extent, half_width
     return {k: (max_range if v is None else v) for k, v in gaps.items()}
 
 
-# Simple placeholder vehicle; must match planner/vehicle.py and the Webots car.
+# The car's geometry. It matches planner/vehicle.py and the Webots car in
+# worlds/parking_lot.wbt (confirmed by M1, see docs/m1_world_sensors.md).
 DEFAULT_GEOMETRY = VehicleGeometry(wheelbase_m=2.8, length_m=4.6, width_m=1.9,
                                    rear_overhang_m=1.0, max_steer_rad=0.5)
 
