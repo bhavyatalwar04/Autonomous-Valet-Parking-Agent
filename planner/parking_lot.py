@@ -172,7 +172,8 @@ def pre_park_poses(slot, offset=3.0, standoff=4.0):
     R - width/2 = 5.24 m. Stopping 3.5 m out (the aisle centre line) leaves
     a gap of zero to that car's far corner; 4 m out leaves about 0.2 m, with
     the outer side of the swing still clear of the row across the aisle.
-    Worked out for the placeholder car; recheck if the car changes.
+    Worked out for the project's car (planner/vehicle.py, the same as the
+    Webots car); recheck if the car's size or steering limit changes.
     """
     towards_aisle = 1.0 if slot.aisle_y > slot.y else -1.0
     y = slot.y + towards_aisle * (BAY_DEPTH / 2 + standoff)

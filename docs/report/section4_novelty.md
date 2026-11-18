@@ -1,6 +1,6 @@
 # 4. Novelty
 
-Each layer of our agent uses a known method: A* and Hybrid A* for planning, a state machine for the parking manoeuvre, and Stanley / pure pursuit for tracking. What is new is how the layers were joined and measured. Building the whole chain showed several dependencies between the global planner and the local manoeuvre that single-layer studies do not show. We solved them with small, explainable additions and measured each one.
+Each layer of our agent uses a known method: A* and Hybrid A* for planning, a state machine for the parking manoeuvre, and Stanley / pure pursuit for tracking. What is new is how the layers were joined and measured. Building the whole chain showed several dependencies between the global planner and the local manoeuvre that single-layer studies do not show. We solved them with small, explainable additions and measured each one. The full measurements are in Section 9; this section states each contribution and its key result.
 
 ## 4.1 A drivability-focused comparison of three planners
 
@@ -11,15 +11,7 @@ We compare grid A*, grid A* with gradient smoothing, and Hybrid A* on the same l
 - how often the car's real rectangular footprint hits an obstacle along the route;
 - the heading error at the goal.
 
-Results over six routes (mean, except maximum curvature, which is the worst route; `results/planner_comparison.md`):
-
-| Method | Length (m) | Time (ms) | Max curvature (1/m) | Too-tight length (m) | Footprint hits | Goal heading error (°) |
-|---|---|---|---|---|---|---|
-| A* | 28.7 | 9.9 | 2.53 | 3.27 | 4.0 | 52.5 |
-| A* + smoothing | 28.0 | 21.6 | 1.06 | 3.46 | 1.8 | 44.7 |
-| Hybrid A* | 31.0 | 372.9 | 0.20 (= car limit) | 0.00 | 0.0 | 3.4 |
-
-Grid A* gives the shortest routes, about 40 times faster, but none of them can be driven as planned. Smoothing makes the corners rounder but does not fix the problem: the length of route tighter than the car can turn even goes up slightly. Only Hybrid A* gives routes that respect the turning radius and clear the car's footprint, for 8 % more length.
+These measures change the conclusion. On length and time alone, grid A* wins: its routes are shortest and it is about 40 times faster. On the new measures, none of its routes can be driven as planned. On average 3.3 m of each route is tighter than the car can turn, and the body would hit an obstacle at four poses. Smoothing does not fix this; the too-tight length even rises slightly. Only Hybrid A* has no too-tight stretch and no collision, for 8 % more length (Section 9.2).
 
 ## 4.2 A pre-park pose derived from the manoeuvre's geometry
 
@@ -27,7 +19,7 @@ The planner does not drive into the bay. It stops at a "pre-park" pose on the ai
 
 ## 4.3 An exact final approach without Reeds–Shepp curves
 
-Hybrid A* only promises to reach the goal within 0.5 m, but the geometry above leaves about 0.3 m of room across the aisle. Instead of the usual Reeds–Shepp step [9], [10], we search to a point 5 m before the goal and join it to the exact goal with a cubic curve, checked against the turning limit and for collisions. This works because every pre-park pose lies on a straight aisle, facing along it. It is a few lines of algebra, easy to explain, and every route now ends exactly on the goal (used for every bay in the sweep below).
+Hybrid A* only promises to reach the goal within 0.5 m, but the geometry above leaves about 0.3 m of room across the aisle. Instead of the usual Reeds–Shepp step [9], [10], we search to a point 5 m before the goal and join it to the exact goal with a cubic curve, checked against the turning limit and for collisions. This works because every pre-park pose lies on a straight aisle, facing along it. It is a few lines of algebra, easy to explain, and every route now ends exactly on the goal (Section 6.8).
 
 ## 4.4 Two-stage slot choice
 
@@ -41,62 +33,19 @@ The three layers interact in a defined way:
 - once the car is stopped, the deliberative layer (M2) rebuilds the map from the lidar and plans again from where the car is, to the same slot if it is still free, otherwise to the next best;
 - if every new route is stopped again before the car can move, the agent reports that it is boxed in rather than looping.
 
-Offline scenarios (`results/agent/agent_scenarios.md`):
-
-| Scenario | What happens | Result |
-|---|---|---|
-| Normal | Picks the best slot, drives, reverses in | Parked in A2 after 53 s; closest gap 0.20 m |
-| Slot taken | Another car takes our slot 3 s into the drive | Replans to B0; parked after 55 s; closest gap 0.21 m |
-| Pedestrian | Steps onto the route 6 m ahead, leaves after 10 s | Two replans; parked in A2 after 78 s; closest gap 0.23 m |
+In the offline scenarios the agent parked in every case: in A2 with no replanning, in B0 after another car took its first choice, and in A2 after a pedestrian blocked the route and two replans. It never came closer than 0.20 m to anything (Section 9.5).
 
 ## 4.6 Measured parking success in every bay
 
-Rather than one demonstration, we tried to park in each of the 40 bays with both neighbours occupied (the tightest case). That run found the problems behind Sections 4.2 and 4.3, plus two more:
+Rather than one demonstration, we tried to park in each of the 40 bays with both neighbours occupied, the tightest case. That test found the problems behind Sections 4.2 and 4.3, plus two more:
 
 - bays drawn against the outer wall left no room behind a parked car;
 - the last bay in a row has no room to set up the manoeuvre when approached towards the end wall.
 
-Final success rate per row (`results/agent/agent_sweep.md`):
-
-| Row | Parked | Rate |
-|---|---|---|
-| A | 9 / 10 | 90 % |
-| B | 9 / 10 | 90 % |
-| C | 7 / 10 | 70 % |
-| D | 9 / 10 | 90 % |
-| **All** | **34 / 40** | **85 %** |
-
-In none of the 40 runs did the car touch anything: the closest it came was 0.07 m.
-
-The sweep was rerun after M3's parking speed and lookahead were tuned in Webots (0.35 → 0.45 m/s, 0.65 → 0.55 m; Section 4.7). The success rate and the failing bays did not change, the mean time to park fell from 77.0 s to 68.6 s (11 %), and the largest final heading error fell from 0.26° to 0.11°. Every parked car ended within 5.3 cm of the bay centre.
-
-The six bays that still fail (A8, B8, C0, C8, C9, D1) are at or next to the ends of the aisles. There, either reaching the bay needs a multi-point turn in a narrow space, or the reverse swing passes the end wall within the 0.15 m safety limit. In every case the safety layer stops the car before contact. Better path tracking through direction changes (M4) and a tighter set-up for end bays (M3) are the next steps.
+With all four fixed, the agent parked in 34 of 40 bays (85 %), with no contact in any run; the closest the body came to an obstacle was 0.07 m. The six bays that still fail are at the ends of the aisles, and in each the safety layer stopped the car before contact (Section 9.6).
 
 ## 4.7 Offline results confirmed in Webots
 
-The offline runs use our own simulated lidar and a bicycle model of the car, so the same agent was also run in Webots, where M1 senses the bays from the real lidar scan and M4 drives the four wheel and two steering motors (`results/m3_webots_tuning/`, `docs/m3_webots_tuning.md`). The first Webots runs exposed one problem the offline model could not: with the lidar mounted 0.28 m above the rear axle, it saw the car's own wheels, so the map showed obstacles around the car and no route could be planned. Raising it to 0.35 m, above the tyres and below the cabin, fixed this.
+The offline runs use our own simulated lidar and a bicycle model of the car, so the same agent was also run in Webots. Webots exposed one problem the offline model could not: with the lidar mounted 0.28 m above the rear axle, it saw the car's own wheels, the map showed obstacles all around the car, and no route could be planned. Raising it to 0.35 m, above the tyres and below the cabin, fixed this.
 
-M3 then compared its old and tuned parking settings in Webots on three bays, starting from the lot entrance each time (time from the start of the parking manoeuvre to parked):
-
-| Bay | Parking time, old → tuned (s) | Centre error, old → tuned (cm) | Heading error, old → tuned (°) | Closest lidar gap, tuned (m) |
-|---|---|---|---|---|
-| A2 | 45.2 → 36.7 | 6.3 → 5.9 | 0.76 → 0.40 | 0.18 |
-| B0 | 46.0 → 37.2 | 6.3 → 6.0 | 0.74 → 0.36 | 0.21 |
-| A5 | 45.2 → 36.7 | 6.3 → 5.9 | 0.78 → 0.40 | 0.20 |
-
-All five validation runs with the tuned settings parked, about 19 % faster, with the heading error halved.
-
-The run to bay A2 can also be compared directly with the offline simulator, because with the default lot the agent chooses A2 in both. The Webots run was repeated on the final code (`docs/report/section_m3_parking.md`):
-
-| Normal run to A2 | Offline simulator | Webots |
-|---|---|---|
-| ALIGN begins (s) | 16.32 | 16.26 |
-| PARK begins (s) | 25.66 | 25.54 |
-| Parked (s) | 52.90 | 52.93 |
-| Centre error (cm) | 5.0 | 5.9 |
-| Heading error (°) | 0.08 | 0.40 |
-| Closest gap (m) | 0.20 | 0.18 |
-
-The Webots errors and gap are from the three tuned A2 runs above, which gave the same times as the run on the final code. The Webots gap is worked out from the lidar scan; the offline gap is exact.
-
-Every phase begins within 0.15 s of the offline prediction over a 53 s run, and with the old parking settings the two simulators gave 61.2 s and 61.4 s. The car ends about 1 cm further from the bay centre in Webots and 0.3° less straight, which we attribute to the wheel and steering dynamics that the bicycle model leaves out. This agreement supports using the offline sweep for the 40-bay success rate. Webots has so far been run on three bays and without moving obstacles; the remaining bays and the pedestrian scenario are still to be repeated there.
+On the final code, the same run to bay A2 parked at 52.90 s offline and 52.93 s in Webots, with every phase beginning within 0.15 s of the offline time. The car ended about 1 cm further from the bay centre in Webots and 0.3° less straight. This agreement is what supports using the offline 40-bay test as the success rate (Section 9.7).

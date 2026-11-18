@@ -37,6 +37,8 @@ A* searches the grid cell by cell, always expanding the cell with the lowest `f 
 
 A* treats the car as a disc centred on the rear axle and has no notion of heading. Its paths turn 45° or 90° on the spot, which a car cannot do. We keep it for two reasons: as the baseline in the comparison, and as a fast way to estimate route lengths when choosing a bay.
 
+![A grid A* route turns 90° on the spot (blue). The car's tightest possible turn is a circle of radius 5.13 m (green), so it cannot follow the A* corner.](figures/astar_corner_vs_turning_circle.png)
+
 ## A* with smoothing
 
 The second method smooths the A* path by gradient descent (`planner/smoothing.py`). Each interior point is pulled towards its original position and towards the midpoint of its neighbours, and a move that would enter an obstacle is undone. This rounds the corners, but it gives no guarantee about the turning radius: Section 4 shows the smoothed paths still contain stretches tighter than the car can turn.
@@ -51,6 +53,8 @@ Hybrid A* [10] searches over car poses `(x, y, heading)` instead of cells (`plan
 - **Heuristic.** Before the search, one Dijkstra pass from the goal gives every cell its shortest obstacle-free distance to the goal. This guides the search along the aisles and round the island instead of into walls.
 - **Collision checks.** Each arc is checked every 0.25 m with the three-circle model.
 - **Stopping.** The search stops when a pose is within 0.5 m and 10° of the goal, or reports failure after 100 000 expansions.
+
+![Hybrid A* motion primitives (schematic). From the car's pose the search drives five steering angles forward (green) and in reverse (orange); the paler arcs show the next level of the search tree.](figures/hybrid_astar_motion_primitives.png)
 
 Compared with the original paper we made three simplifications. We do not use the Reeds–Shepp heuristic [9], only the obstacle-aware one. We do not use an analytic Reeds–Shepp connection to the goal; a simpler curve does that job (below). And we do not post-optimise the route.
 
