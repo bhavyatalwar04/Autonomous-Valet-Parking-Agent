@@ -47,34 +47,6 @@ The agent must also cope with two changes while it drives: another car taking th
 - Speeds are low: 1.0 m/s on the route, 0.5 m/s when a route reverses, and 0.45 m/s while parking.
 - Parked cars do not move. The pedestrian is an obstacle that appears on the route and later leaves.
 
-## System overview
-
-Each layer is one module, owned by one member of the group.
-
-| Module | Layer | What it does | Runs |
-|---|---|---|---|
-| M1 – World and Sensors | Sensing | The Webots lot and car; turns the lidar scan into free bays and obstacles | Every step |
-| M2 – Route Planner | Deliberative | Chooses a bay; plans a drivable route to a pose beside it; replans when the lot changes | Once, then on change |
-| M3 – Parking Manoeuvres | Procedural and reflexive | State machine for the reverse park; brakes when a gap is too small | Every step |
-| M4 – Control and Results | Control | Steers along the route and holds the speed | Every step |
-
-```
-        lidar scan, GPS, compass
-                  |
-   M1  sensing    |   free bays, new obstacles
-                  v
-   M2  DELIBERATIVE   choose a bay -> Hybrid A* route to the pre-park pose
-                  |                         ^
-                  v                         |  stop on the route -> replan
-   M3  PROCEDURAL     DRIVE -> ALIGN -> PARK -> DONE
-       REFLEXIVE      brake if a gap is under 0.15 m or under the stopping distance
-                  |
-                  v
-   M4  CONTROL        steering and speed commands -> wheel and steering motors
-```
-
-One class, `ValetAgent`, runs this loop. The same class runs in Webots and in the offline simulator. Only the source of the sensor readings differs, so results measured offline apply to the code that runs in Webots.
-
 ## Organisation of the report
 
-The Literature Review (Section 3) covers the methods the agent builds on. Novelty (Section 4) presents what is new, with the measurements for each point. The module sections (World and Sensors, Route Planner, Parking Manoeuvres, Control) describe how each layer works. The Results section gives the experiments and comparisons, and the Conclusion lists the limits and future work. Contribution (Section 10) states who did what, and References (Section 13) lists the sources.
+Section 2 gives an overview of the system and how its modules connect. Section 3 reviews the literature the agent builds on, and Section 4 presents what is new, with the measurements for each point. Sections 5 to 8 describe the four modules: World and Sensors, Route Planner, Parking Manoeuvres and Control. Section 9 gives the experiments and comparisons. Section 10 states who did what. Section 11 concludes, Section 12 lists the limitations and future work, and Section 13 lists the references.

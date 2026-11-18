@@ -37,7 +37,9 @@ Three planners were run from the entrance to the pre-park pose of six bays, one 
 
 Grid A* is the shortest and the fastest, but none of its routes can be driven as planned. On average 3.3 m of each route is tighter than the car can turn, the body would hit an obstacle at four poses, and the route ends 52° off the heading the parking manoeuvre needs. Smoothing reduces the curvature peak and the collisions, but because it does not model the turning radius, the too-tight length rises slightly. Hybrid A* has no stretch tighter than the car's limit and no collision, and ends within 3.4° of the required heading. It costs 8 % more length and about 0.4 s of planning, up to 1.3 s for the farthest bay (C9).
 
-Figures: `results/planner_paths_C4.png` (the three routes to bay C4), `results/planner_summary.png`.
+![The three planners' routes from the entrance to bay C4. Red crosses mark poses where the car body would hit a parked car; the dashed part of the Hybrid A* route is driven in reverse.](../../results/planner_paths_C4.png)
+
+![Planner comparison over the six routes: length, planning time, worst curvature, length too tight to drive, footprint collisions and final heading error.](../../results/planner_summary.png)
 
 ## Comparison 2: path tracking
 
@@ -51,19 +53,17 @@ The car starts 0.3 m and 0.05 rad off the route. Tracking error is the true cros
 
 ### E1: controller comparison
 
-| Route | Controller | RMS error forward (m) | RMS error reverse (m) | Final sideways error (cm) | Final heading error (°) | Parked |
-|---|---|---|---|---|---|---|
-| straight | Pure Pursuit | 0.105 | 0.023 | 0.8 | 0.65 | Yes |
-| straight | Stanley | 0.118 | 0.405 | 13.5 | 3.96 | No |
-| straight | Stanley + FF | 0.118 | 0.012 | 1.3 | 0.52 | Yes |
-| L-route | Pure Pursuit | 0.096 | 0.023 | 0.8 | 0.65 | Yes |
-| L-route | Stanley | 0.365 | 0.420 | 14.7 | 3.61 | No |
-| L-route | Stanley + FF | 0.365 | 0.018 | 1.4 | 0.65 | Yes |
-| tight | Pure Pursuit | 0.105 | 0.027 | 0.9 | 0.74 | Yes |
-| tight | Stanley | 0.118 | 0.578 | 24.0 | 7.67 | No |
-| tight | Stanley + FF | 0.118 | 0.014 | 1.5 | 0.64 | Yes |
+| Controller (L-route) | RMS error forward (m) | RMS error reverse (m) | Final sideways error (cm) | Final heading error (°) | Parked |
+|---|---|---|---|---|---|
+| Pure Pursuit | 0.096 | 0.023 | 0.8 | 0.65 | Yes |
+| Stanley | 0.365 | 0.420 | 14.7 | 3.61 | No |
+| Stanley + FF | 0.365 | 0.018 | 1.4 | 0.65 | Yes |
 
-Pure Pursuit tracks well in both directions on every route. Plain Stanley tracks forward but fails every reverse park, by 13 to 24 cm sideways and 3.6 to 7.7°. With curvature feed-forward, Stanley's reverse error falls to 1.2–1.8 cm and every run parks. Forward, Stanley's larger error on the L-route comes from the front-axle reference: the rear axle cuts inside the filleted corners. Figure: `results/m4/figures/F1_trajectories.png`.
+The straight and tight routes give the same pattern (`results/m4/tables.md`).
+
+Pure Pursuit tracks well in both directions on every route. Plain Stanley tracks forward but fails every reverse park, by 13 to 24 cm sideways and 3.6 to 7.7°. With curvature feed-forward, Stanley's reverse error falls to 1.2–1.8 cm and every run parks. Forward, Stanley's larger error on the L-route comes from the front-axle reference: the rear axle cuts inside the filleted corners.
+
+![Paths driven by the three controllers on the straight, L-shaped and tight routes. Plain Stanley (orange) ends outside the bay after reversing.](../../results/m4/figures/F1_trajectories.png)
 
 ### E2: tuning sweeps
 
@@ -72,7 +72,9 @@ Six noisy runs per setting, on the L-route, with 5 cm of GPS noise:
 - **Pure Pursuit look-ahead:** raising the minimum look-ahead from 0.5 m to 3 m lowers the steering rate from 0.50 to 0.15 rad/s, so the steering is smoother. But the route is cut more, and the final sideways error rises from 0.3 cm to 18 cm. All settings parked.
 - **Stanley + FF gain `k`:** between 0.3 and 3 all runs parked, with the final error lowest at `k` = 3 (0.7 cm). At `k` = 5 only 83 % parked, and at `k` = 8 none did, because the steering oscillates.
 
-The defaults (look-ahead 1.2 m, `k` = 1.5) sit inside the safe range on both sweeps. Figure: `F3_param_sweeps.png`.
+The defaults (look-ahead 1.2 m, `k` = 1.5) sit inside the safe range on both sweeps.
+
+![Parameter sweeps on the L-route with 5 cm of GPS noise: tracking error, steering activity and parking success against Pure Pursuit's minimum look-ahead (top) and the Stanley + FF gain (bottom).](../../results/m4/figures/F3_param_sweeps.png)
 
 ### E3: speed control
 
@@ -93,7 +95,9 @@ P alone leaves a steady error because of drag; the integral term removes it. The
 | PI, no feed-forward | 38.9 | 0 % |
 | P + feed-forward | 2.7 | 100 % |
 
-Without feed-forward, the car lagged its speed profile and stopped 39 cm short of its target every time. Figure: `F4_pid_step.png`.
+Without feed-forward, the car lagged its speed profile and stopped 39 cm short of its target every time.
+
+![Speed controller step responses for the P, PI and PID variants.](../../results/m4/figures/F4_pid_step.png)
 
 ### E4: noise
 
@@ -107,11 +111,15 @@ Twenty runs per cell on the L-route, with increasing GPS noise:
 
 *Share of runs that parked.*
 
-Up to 10 cm of noise neither good controller is affected. At 20 cm, the final error along the bay grows to about 19 cm without the pose filter, and 5–10 % of runs miss the bay. The filter brings the error back to about 3 cm and every run parks. Figure: `F5_noise_robustness.png`.
+Up to 10 cm of noise neither good controller is affected. At 20 cm, the final error along the bay grows to about 19 cm without the pose filter, and 5–10 % of runs miss the bay. The filter brings the error back to about 3 cm and every run parks.
+
+![Tracking error, final errors and parking success against GPS noise. Dashed lines use the pose filter.](../../results/m4/figures/F5_noise_robustness.png)
 
 ### E5: reverse speed
 
-On the L-route without noise, Pure Pursuit and Stanley + FF parked at every reverse speed from 0.5 to 2.5 m/s, though the final error grew with speed (Stanley + FF: 0.1 cm at 0.5 m/s, 10 cm at 2.5 m/s). Plain Stanley parked only at 0.75 m/s or slower. The agent reverses at 0.5 m/s. Figure: `F6_reverse_speed.png`.
+On the L-route without noise, Pure Pursuit and Stanley + FF parked at every reverse speed from 0.5 to 2.5 m/s, though the final error grew with speed (Stanley + FF: 0.1 cm at 0.5 m/s, 10 cm at 2.5 m/s). Plain Stanley parked only at 0.75 m/s or slower. The agent reverses at 0.5 m/s.
+
+![Largest tracking error while reversing, and final heading error, against reverse speed.](../../results/m4/figures/F6_reverse_speed.png)
 
 ## Parking manoeuvre in Webots
 
@@ -137,7 +145,9 @@ Three offline scenarios with the full agent (`python -m agent.run_offline`, `res
 | Another car takes the chosen bay after 3 s | Parked in B0 | 55.0 | 1 | 0.21 | 5.2 | 0.07 |
 | A pedestrian steps onto the route 6 m ahead and leaves 10 s later | Parked in A2 | 78.3 | 2 | 0.23 | 5.0 | 0.05 |
 
-In the second case the agent saw the bay become occupied on its next check, stopped and replanned to the next best bay. In the third, the safety layer stopped the car; the agent then replanned twice and waited until the way was clear. Figures: `results/agent/agent_*.png`.
+In the second case the agent saw the bay become occupied on its next check, stopped and replanned to the next best bay. In the third, the safety layer stopped the car; the agent then replanned twice and waited until the way was clear.
+
+![The pedestrian scenario. Dotted lines are routes the agent abandoned; red marks where it braked. It parks in A2 after two replans.](../../results/agent/agent_pedestrian.png)
 
 ## Whole agent: every bay
 
