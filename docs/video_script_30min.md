@@ -2,39 +2,40 @@
 
 > **Check the length rule first.** The course brief asks for an 18–22 minute video. Use this 30-minute version only if the limit has changed, or for a longer presentation. The 20-minute script is in `docs/video_script.md`.
 
-Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone keeps their camera on throughout.
+Same 23 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). With the objectives, literature, Webots and limitations slides it runs to about 32 minutes. Everyone keeps their camera on throughout.
 
 - **Slides:** Bhavya shares them and moves on at each `[NEXT SLIDE]`.
-- **Demo:** Harshil shares Webots, only during the demo.
+- **Demo:** Bhavya runs the Webots demo and switches the Zoom share from the slides to the Webots window for it.
 - **Pace:** written for about 130 words a minute. Learn it well enough to say it in your own words.
 
 ## Running order
 
 | Time | Slides | Speaker |
 |---|---|---|
-| 0:00–3:00 | 1–3 | Bhavya |
-| 3:00–6:30 | 4 | Devansh |
-| 6:30–12:30 | 5–8 | Bhavya |
-| 12:30–16:00 | 9 | Harshil |
-| 16:00–19:30 | 10 | Shahvez |
-| 19:30–22:00 | 11–12 | Bhavya |
-| 22:00–26:00 | Live demo | Devansh, then Harshil |
-| 26:00–28:30 | 13–14 | Shahvez |
-| 28:30–30:00 | 15–17 | Bhavya, then everyone |
+| 0:00–4:05 | 1–5 | Bhavya |
+| 4:05–7:35 | 6 | Devansh |
+| 7:35–13:35 | 7–10 | Bhavya |
+| 13:35–17:05 | 11 | Harshil |
+| 17:05–20:35 | 12 | Shahvez |
+| 20:35–23:05 | 13–14 | Bhavya |
+| 23:05–27:05 | Live demo | Devansh, Bhavya, then Harshil |
+| 27:05–30:00 | 15–17 | Shahvez |
+| 30:00–32:00 | 18–23 | Bhavya, then everyone |
 
 | Speaker | Speaking time |
 |---|---|
-| Bhavya | about 12 min |
-| Harshil | about 6.5 min |
-| Shahvez | about 6 min |
+| Bhavya | about 15 min |
+| Harshil | about 5 min |
+| Shahvez | about 6.5 min |
 | Devansh | about 4.5 min |
 
 ## Before pressing Record
 
 - [ ] Everyone has camera and microphone on, headphones in, and is in a quiet room.
 - [ ] Zoom recording settings: *Record video during screen sharing* and *Place video next to the shared screen* are on. Free Zoom meetings with three or more people end at 40 minutes, which is enough.
-- [ ] Harshil: latest `main` pulled, `worlds/parking_lot.wbt` open, run once and **Reset**, console visible with a large font.
-- [ ] Harshil: `results/m3_webots_tuning/A2_tuned_demo.mp4` ready as a fallback.
+- [ ] Bhavya: latest `main` pulled, `worlds/parking_lot.wbt` open in Webots, run once and **Reset**, console visible with a large font.
+- [ ] Bhavya: `results/m3_webots_tuning/A2_tuned_demo.mp4` ready as a fallback.
+- [ ] Bhavya: practise switching the Zoom share from the slides to the Webots window and back.
 - [ ] Bhavya: deck open on slide 1, in presenter mode.
 
 ---
@@ -67,7 +68,19 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 3: Architecture (Bhavya, 1:55–3:00)
+## Slide 3: Objectives (Bhavya, 1:55–2:20)
+
+> We set ourselves five objectives: find free bays using only the lidar; plan routes a real car can drive; reverse into a bay between two parked cars without contact; stop and replan when the world changes; and measure all of it, not just show one demo.
+
+`[NEXT SLIDE]`
+
+## Slide 4: Literature review (Bhavya, 2:20–3:00)
+
+> We built on well-known work. For the agent, Gat's three-layer architecture, which matches the hierarchy in our syllabus. For planning, A*, and Hybrid A* from Dolgov and colleagues. For tracking, pure pursuit and the Stanley controller. Each of these studies one layer on its own. What is less often shown, and what we focused on, is how the layers depend on each other.
+
+`[NEXT SLIDE]`
+
+## Slide 5: Architecture (Bhavya, 3:00–4:05)
 
 > To handle that, we built a **layered** intelligent agent. It follows the declarative, procedural and reflexive hierarchy from our syllabus, and it's the same split as Gat's three-layer architecture from robotics.
 >
@@ -85,7 +98,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 4: World and sensors (Devansh, 3:00–6:30)
+## Slide 6: World and sensors (Devansh, 4:05–7:35)
 
 > Thanks, Bhavya. This is our world in Webots, seen from above.
 >
@@ -105,7 +118,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 5: Why grid A* is not enough (Bhavya, 6:30–8:00)
+## Slide 7: Why grid A* is not enough (Bhavya, 7:35–9:05)
 
 > Thanks, Devansh. My module, M2, plans the route.
 >
@@ -121,7 +134,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 6: Hybrid A* (Bhavya, 8:00–10:00)
+## Slide 8: Hybrid A* (Bhavya, 9:05–11:05)
 
 > So the planner we actually use is **Hybrid A***. It comes from Dolgov and colleagues at Stanford, who used it to drive through parking lots in the DARPA Urban Challenge. That's exactly our setting.
 >
@@ -141,7 +154,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 7: Planner comparison (Bhavya, 10:00–11:45)
+## Slide 9: Planner comparison (Bhavya, 11:05–12:50)
 
 > This is our first comparison. We planned six routes from the entrance, to bays in all four rows, with all three methods. We measured not just length and time, but whether the car could actually drive the result.
 >
@@ -157,7 +170,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 8: Routes to bay C4 (Bhavya, 11:45–12:30)
+## Slide 10: Routes to bay C4 (Bhavya, 12:50–13:35)
 
 > Here are the three routes to bay C4. Same start, same goal.
 >
@@ -171,7 +184,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 9: Parking manoeuvre (Harshil, 12:30–16:00)
+## Slide 11: Parking manoeuvre (Harshil, 13:35–17:05)
 
 > Thanks, Bhavya. My module, M3, does the final parking manoeuvre. It holds two of the four layers: the procedural layer and the reflexive layer.
 >
@@ -195,7 +208,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 10: Path tracking (Shahvez, 16:00–19:30)
+## Slide 12: Path tracking (Shahvez, 17:05–20:35)
 
 > Thank you, Harshil. My module, M4, is the control layer. It turns the planned route into steering and speed, every step.
 >
@@ -217,7 +230,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 11: Integration (Bhavya, 19:30–20:45)
+## Slide 13: Integration (Bhavya, 20:35–21:50)
 
 > Thanks, Shahvez. Building each module was half the work. Joining them was the other half.
 >
@@ -235,7 +248,7 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 
 `[NEXT SLIDE]`
 
-## Slide 12: Where the route ends (Bhavya, 20:45–22:00)
+## Slide 14: Where the route ends (Bhavya, 21:50–23:05)
 
 > The biggest lesson from integration: **where the route ends decides whether parking works.**
 >
@@ -245,25 +258,29 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 >
 > Third, Harshil's manoeuvre needs about 6.5 metres to set up past the bay. At the last bay in a row, that runs into the wall, so the planner now approaches end bays from the other side.
 >
-> All three came from running the whole chain; each module had passed its own tests. Now let's see it live. Over to Devansh and Harshil.
+> All three came from running the whole chain; each module had passed its own tests. Now let's see it live. Over to Devansh.
 
-`[STOP SHARING. Harshil shares the Webots window.]`
+`[Bhavya switches the share from the slides to the Webots window.]`
 
-## Live demo (Devansh, then Harshil, 22:00–26:00)
+## Live demo (Devansh, Bhavya, then Harshil, 23:05–27:05)
 
 **Devansh (about 45 seconds, before Run):**
 
-> This is the world from slide 4, live in Webots. Our car is at the entrance on the left. It knows the layout of the lot, the walls and where the bays are, but **not** which bays are free. It has to find that out with its lidar, exactly as I described. Harshil, go ahead.
+> This is the world from slide 6, live in Webots. Our car is at the entrance on the left. It knows the layout of the lot, the walls and where the bays are, but **not** which bays are free. It has to find that out with its lidar, exactly as I described. Bhavya, go ahead.
 
-**Harshil (presses Run, then narrates):**
+**Bhavya (presses Run, then narrates):**
 
 > I'm pressing Run. The controller is the full agent: all four of our modules in one loop.
 >
-> *(after about 1 second)* In the console you can see it has scanned the lot, chosen **bay A2**, and planned a route in about a second. That's Bhavya's planner choosing the closest reachable bay.
+> *(car still, for a few seconds)* First it scans the lot and plans: it ranks the free bays with fast grid A*, then runs Hybrid A* to the best one. On this laptop that takes a few seconds, so the car waits.
 >
-> *(car driving)* Now it's in **Drive**. Shahvez's controller follows the route at one metre per second. The status line says "Driving to slot A2". Every second, the planner checks the bay is still free and the route is still clear.
+> *(console shows the bay)* In the console you can see it has chosen **bay A2**, the closest bay it can reach, and planned a route to it.
 >
-> *(around 16 s, ALIGN)* The route has ended beside the bay, 4 metres out from it. The state machine switches to **Align**, and the car drives forward past the bay to its turning point, at 0.45 metres per second.
+> *(car driving)* Now it's in **Drive**. Shahvez's controller follows the route at one metre per second. The status line says "Driving to slot A2". Every second, the planner checks the bay is still free and the route is still clear. Harshil, over to you for the parking.
+
+**Harshil (narrates while Bhavya's screen shows the run):**
+
+> *(around 16 s on the Webots clock, ALIGN)* The route has ended beside the bay, 4 metres out from it. My state machine switches to **Align**, and the car drives forward past the bay to its turning point, at 0.45 metres per second.
 >
 > *(around 25 s, PARK)* Now **Park**. It's reversing along the quarter circle. The safety layer checks the gap to the neighbouring cars every step.
 >
@@ -273,15 +290,15 @@ Same 17 slides (https://claude.ai/artifact/DU43H77LGqmJncPuBNjXhC). Everyone kee
 >
 > Our offline simulator predicted 52.9 seconds for this exact run. Every phase starts within 0.15 seconds of the prediction, which is why we trust the offline tests you'll see next.
 
-`[STOP SHARING. Bhavya shares the slides again.]`
+`[Bhavya switches the share back to the slides.]`
 
 **If the live run fails:**
 
-> Harshil: That didn't go as planned. Here's a recording of the same run from our tests.
+> Bhavya: That didn't go as planned. Here's a recording of the same run from our tests.
 
-Play `A2_tuned_demo.mp4` and narrate it the same way. Don't spend more than 15 seconds troubleshooting live.
+Play `A2_tuned_demo.mp4` and narrate it the same way: Bhavya for Drive, Harshil for Align and Park. Don't spend more than 15 seconds troubleshooting live.
 
-## Slide 13: Scenarios (Shahvez, 26:00–27:15)
+## Slide 15: Scenarios (Shahvez, 27:05–28:20)
 
 > Thank you. Now the results. Besides the normal run you just saw, we tested two cases where the world changes during the drive.
 >
@@ -295,7 +312,7 @@ Play `A2_tuned_demo.mp4` and narrate it the same way. Don't spend more than 15 s
 
 `[NEXT SLIDE]`
 
-## Slide 14: Every bay (Shahvez, 27:15–28:30)
+## Slide 16: Every bay (Shahvez, 28:20–29:35)
 
 > One demo can hide a lot, so we tried to park in **every one of the 40 bays**, each time with cars on both sides, which is the hardest case.
 >
@@ -305,11 +322,17 @@ Play `A2_tuned_demo.mp4` and narrate it the same way. Don't spend more than 15 s
 >
 > The six failures are all at or next to the ends of the aisles. There, reaching the bay needs a multi-point turn in a tight space, or the reverse swing passes the end wall too closely. Every time, the safety layer stopped the car before it touched anything, so it failed safely.
 >
-> This test also found four bugs that a single demo would have missed, and each was fixed. After Harshil's Webots tuning we ran it again: still 34 out of 40, and 11 per cent faster. Back to Bhavya to wrap up.
+> This test also found four bugs that a single demo would have missed, and each was fixed. After Harshil's Webots tuning we ran it again: still 34 out of 40, and 11 per cent faster.
 
 `[NEXT SLIDE]`
 
-## Slide 15: Novelty (Bhavya, 28:30–29:10)
+## Slide 17: Webots (Shahvez, 29:35–30:00)
+
+> And Webots confirms the offline results. In the run to A2 you just saw, every phase started within 0.15 seconds of what our offline simulator predicts, and Harshil's tuning made parking 19 per cent faster, with half the heading error. Back to Bhavya to wrap up.
+
+`[NEXT SLIDE]`
+
+## Slide 18: Novelty (Bhavya, 30:00–30:40)
 
 > Each method we used is known. What's new is **how the layers fit together**, and how carefully we measured it:
 >
@@ -322,7 +345,7 @@ Play `A2_tuned_demo.mp4` and narrate it the same way. Don't spend more than 15 s
 
 `[NEXT SLIDE]`
 
-## Slide 16: Who built what (everyone, 29:10–29:40)
+## Slide 19: Who built what (everyone, 30:40–31:10)
 
 Each person says one sentence, in this order:
 
@@ -338,15 +361,31 @@ Each person says one sentence, in this order:
 
 `[NEXT SLIDE]`
 
-## Slide 17: Conclusion (Bhavya, 29:40–30:00)
+## Slide 20: Limitations (Bhavya, 31:10–31:35)
+
+> Before we conclude, our limitations. Six bays at the ends of the aisles don't park yet. Webots was tested on three bays, and the pedestrian case only offline. The lot's layout is given, the position comes from GPS, and pedestrians are treated as static obstacles.
+
+`[NEXT SLIDE]`
+
+## Slide 21: Conclusion (Bhavya, 31:35–31:55)
 
 > To conclude: we built a layered agent that parks safely, and knows when it can't.
 >
 > Hybrid A* gives drivable routes where A* does not. The agent parks in 85 per cent of bays with no contact, and replans when a bay is taken or the way is blocked.
 >
 > Next, we'd like better tracking through changes of direction, a smarter set-up for end-of-aisle bays, and parallel parking.
->
-> Thank you for watching.
+
+`[NEXT SLIDE]`
+
+## Slide 22: References (not spoken)
+
+Not read out. Bhavya moves straight on.
+
+`[NEXT SLIDE]`
+
+## Slide 23: Thank you (everyone, 31:55)
+
+> **Bhavya:** Thank you for watching.
 
 **Everyone:** Thank you.
 
@@ -360,5 +399,5 @@ Practise once with a timer.
 
 | If you are... | Then |
 |---|---|
-| Over 31 minutes | Shorten slides 5, 6 and 10 first; keep the demo intact |
-| Under 29 minutes | Let the demo run with more narration, and spend longer on the pedestrian plot on slide 13 |
+| Over 33 minutes | Shorten slides 7, 8 and 12 first; keep the demo intact |
+| Under 31 minutes | Let the demo run with more narration, and spend longer on the pedestrian plot on slide 15 |
